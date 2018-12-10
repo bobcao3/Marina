@@ -11,12 +11,21 @@
 
 #include "marina-server.hpp"
 
+enum MarinaViewType {
+    UNDEFINED,
+    XDG_SHELL,
+    XDG_SHELL_V6,
+    LAYER_SHELL
+};
+
 class MarinaView {
 public:
     MarinaServer* server;
 
     int x = 0, y = 0;
 	bool mapped = false;
+
+    int type = UNDEFINED;
 
     struct wl_list link;
 };

@@ -18,6 +18,7 @@ executable(
         'src/server.cpp',
         'src/output.cpp',
         'src/xdgview.cpp',
+        'src/xdgview_v6.cpp',
         'src/renderer.cpp'
     ],
     dependencies : [

@@ -26,6 +26,7 @@ extern "C" {
     #include <wlr/types/wlr_output_layout.h>
     #include <wlr/types/wlr_wl_shell.h>
     #include <wlr/types/wlr_xdg_shell.h>
+    #include <wlr/types/wlr_xdg_shell_v6.h>
     #include <wlr/types/wlr_screenshooter.h>
     #include <wlr/types/wlr_gamma_control.h>
     #include <wlr/types/wlr_idle.h>
@@ -44,6 +45,7 @@ public:
     struct wlr_backend* backend;
     struct wlr_compositor* compositor;
     struct wlr_xdg_shell *xdg_shell;
+    struct wlr_xdg_shell_v6 *xdg_v6_shell;
 	
 	struct wl_list views;
     struct wl_list outputs;
@@ -55,9 +57,11 @@ public:
     // Listeners
     struct wl_listener new_output;
     struct wl_listener new_xdg_surface;
+    struct wl_listener new_xdg_v6_surface;
 
     static void new_output_notify(struct wl_listener* listener, void* data);
     static void new_xdg_surface_notify(struct wl_listener* listener, void* data);
+    static void new_xdg_v6_surface_notify(struct wl_listener* listener, void* data);
 
 public:
     int run_server();

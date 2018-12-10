@@ -7,6 +7,7 @@
 #include "marina-server.hpp"
 #include "marina-output.hpp"
 #include "marina-xdg-view.hpp"
+#include "marina-xdg-v6-view.hpp"
 
 MarinaOutput::MarinaOutput(struct wlr_output* wlr_output, MarinaServer* server) {
     clock_gettime(CLOCK_MONOTONIC, &this->last_frame);
@@ -57,7 +58,7 @@ void MarinaOutput::frame_notify(struct wl_listener* listener, void* data) {
     float clear_color[4] = {0.3, 0.4, 0.4, 1.0};
     wlr_renderer_clear(renderer, clear_color);
 
-    MarinaXDGView* view;
+    MarinaView* view;
     wl_list_for_each_reverse(view, &server->views, link) {
         MarinaRenderer rdata;
         rdata.output   = wlr_output;
@@ -65,7 +66,13 @@ void MarinaOutput::frame_notify(struct wl_listener* listener, void* data) {
         rdata.renderer = renderer;
         rdata.when     = &now;
 
-        wlr_xdg_surface_for_each_surface(view->xdg_surface, MarinaRenderer::render_surface, &rdata);
+        if (view->type == XDG_SHELL) {
+            wlr_xdg_surface_for_each_surface(((MarinaXDGView*)view)->xdg_surface, MarinaRenderer::render_surface, &rdata);
+        } else if (view->type == XDG_SHELL_V6) {
+            wlr_xdg_surface_v6_for_each_surface(((MarinaXDGV6View*)view)->xdg_surface, MarinaRenderer::render_surface, &rdata);
+        } else {
+            wlr_log(WLR_ERROR, "View 0x%x with undefined type!", view);
+        }
     }
 
     wlr_renderer_end(renderer);

@@ -4,15 +4,15 @@
  */
 
 
-#include "marina-xdg-view.hpp"
+#include "marina-xdg-v6-view.hpp"
 
-MarinaXDGView::MarinaXDGView(MarinaServer* server, wlr_xdg_surface* xdg_surface) {
+MarinaXDGV6View::MarinaXDGV6View(MarinaServer* server, wlr_xdg_surface_v6* xdg_surface) {
     this->server = server;
     this->xdg_surface = xdg_surface;
 
-    this->type = XDG_SHELL;
+    this->type = XDG_SHELL_V6;
 
-    wlr_log(WLR_DEBUG, "new MarinaXDGView %x\n", this);
+    wlr_log(WLR_DEBUG, "new MarinaXDGV6View %x\n", this);
 
     this->map.notify = map_notify;
     wl_signal_add(&xdg_surface->events.map, &this->map);
@@ -23,7 +23,7 @@ MarinaXDGView::MarinaXDGView(MarinaServer* server, wlr_xdg_surface* xdg_surface)
     this->destroy.notify = destroy_notify;
     wl_signal_add(&xdg_surface->events.destroy, &this->destroy);
 
-    struct wlr_xdg_toplevel *toplevel = xdg_surface->toplevel;
+    struct wlr_xdg_toplevel_v6 *toplevel = xdg_surface->toplevel;
 
     this->request_move.notify = request_move_notify;
     wl_signal_add(&toplevel->events.request_move, &this->request_move);
@@ -34,31 +34,31 @@ MarinaXDGView::MarinaXDGView(MarinaServer* server, wlr_xdg_surface* xdg_surface)
     wl_list_insert(&server->views, &this->link);
 }
 
-void MarinaXDGView::map_notify(struct wl_listener* listener, void* data) {
-    MarinaXDGView* view = wl_container_of(listener, view, map);
+void MarinaXDGV6View::map_notify(struct wl_listener* listener, void* data) {
+    MarinaXDGV6View* view = wl_container_of(listener, view, map);
     view->mapped = true;
     // TODO : Focus this view
 }
 
-void MarinaXDGView::unmap_notify(struct wl_listener* listener, void* data) {
-    MarinaXDGView* view = wl_container_of(listener, view, unmap);
+void MarinaXDGV6View::unmap_notify(struct wl_listener* listener, void* data) {
+    MarinaXDGV6View* view = wl_container_of(listener, view, unmap);
     view->mapped = false;
 }
 
-void MarinaXDGView::destroy_notify(struct wl_listener* listener, void* data) {
-    MarinaXDGView* view = wl_container_of(listener, view, destroy);
+void MarinaXDGV6View::destroy_notify(struct wl_listener* listener, void* data) {
+    MarinaXDGV6View* view = wl_container_of(listener, view, destroy);
     wl_list_remove(&view->link);
     delete view;
 }
 
-void MarinaXDGView::request_move_notify(struct wl_listener* listener, void* data) {
+void MarinaXDGV6View::request_move_notify(struct wl_listener* listener, void* data) {
     struct wlr_xdg_toplevel_resize_event* event = (struct wlr_xdg_toplevel_resize_event*) data;
-    MarinaXDGView* view = wl_container_of(listener, view, request_move);
+    MarinaXDGV6View* view = wl_container_of(listener, view, request_move);
 
 }
 
-void MarinaXDGView::request_resize_notify(struct wl_listener* listener, void* data) {
+void MarinaXDGV6View::request_resize_notify(struct wl_listener* listener, void* data) {
     struct wlr_xdg_toplevel_resize_event* event = (struct wlr_xdg_toplevel_resize_event*) data;
-    MarinaXDGView* view = wl_container_of(listener, view, request_resize);
+    MarinaXDGV6View* view = wl_container_of(listener, view, request_resize);
 
 }
