@@ -5,6 +5,7 @@
 
 
 #include "marina-server.hpp"
+#include "marina-input.hpp"
 #include "marina-output.hpp"
 #include "marina-xdg-view.hpp"
 #include "marina-xdg-v6-view.hpp"
@@ -58,6 +59,13 @@ void MarinaServer::new_xdg_surface_notify(struct wl_listener *listener, void* da
     __attribute__((unused)) MarinaXDGView* view = new MarinaXDGView(server, xdg_surface);
 }
 
+void MarinaServer::new_input_notify(struct wl_listener *listener, void* data) {
+    struct wlr_input_device* device = (struct wlr_input_device*) data;
+    MarinaServer* server = wl_container_of(listener, server, new_input);
+
+    __attribute__((unused)) MarinaInput* input = new MarinaInput(server, device);
+}
+
 void MarinaServer::new_output_notify(struct wl_listener *listener, void* data) {
     MarinaServer* server = wl_container_of(listener, server, new_output);
     struct wlr_output* wlr_output = (struct wlr_output*) data;
@@ -88,6 +96,9 @@ MarinaServer::MarinaServer() {
     
     this->new_output.notify = MarinaServer::new_output_notify;
     wl_signal_add(&this->backend->events.new_output, &this->new_output);
+
+    this->new_input.notify = MarinaServer::new_input_notify;
+    wl_signal_add(&this->backend->events.new_input, &this->new_input);
 
     this->socket = wl_display_add_socket_auto(this->wl_display);
     assert(this->socket);

@@ -24,6 +24,8 @@ MarinaOutput::MarinaOutput(struct wlr_output* wlr_output, MarinaServer* server) 
     wlr_output_layout_add_auto(server->output_layout, wlr_output);
 
     wlr_output_create_global(wlr_output);
+
+    this->renderer = wlr_backend_get_renderer(wlr_output->backend);
 }
 
 MarinaOutput::~MarinaOutput() {
@@ -42,7 +44,7 @@ void MarinaOutput::frame_notify(struct wl_listener* listener, void* data) {
     MarinaServer* server = output->server;
     struct wlr_output* wlr_output = (struct wlr_output*) data;
 
-    struct wlr_renderer* renderer = wlr_backend_get_renderer(wlr_output->backend);
+    struct wlr_renderer* renderer = output->renderer;
     assert(renderer);
 
     struct timespec now;

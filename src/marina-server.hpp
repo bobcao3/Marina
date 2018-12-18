@@ -58,7 +58,9 @@ public:
     struct wl_listener new_output;
     struct wl_listener new_xdg_surface;
     struct wl_listener new_xdg_v6_surface;
+    struct wl_listener new_input;
 
+    static void new_input_notify(struct wl_listener* listener, void* data);
     static void new_output_notify(struct wl_listener* listener, void* data);
     static void new_xdg_surface_notify(struct wl_listener* listener, void* data);
     static void new_xdg_v6_surface_notify(struct wl_listener* listener, void* data);

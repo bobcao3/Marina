@@ -27,6 +27,8 @@ public:
 
     struct wl_list link;
 
+    struct wlr_renderer* renderer;
+
     MarinaOutput(struct wlr_output* wlr_output, MarinaServer* server);
     ~MarinaOutput();
 };

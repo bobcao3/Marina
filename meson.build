@@ -6,6 +6,7 @@ wlr            = dependency('wlroots')
 wayland_server = dependency('wayland-server')
 wayland_proto  = dependency('wayland-protocols')
 wayland_client = dependency('wayland-client')
+xkbcommon      = dependency('xkbcommon')
 
 incdir         = include_directories('src')
 
@@ -16,6 +17,7 @@ executable(
     [
         'src/main.cpp',
         'src/server.cpp',
+        'src/input.cpp',
         'src/output.cpp',
         'src/xdgview.cpp',
         'src/xdgview_v6.cpp',
@@ -27,7 +29,8 @@ executable(
         wlr,
         wayland_server,
         wayland_proto,
-        wlr_protos
+        wlr_protos,
+        xkbcommon
     ],
     include_directories : [
         incdir
