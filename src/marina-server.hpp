@@ -20,6 +20,8 @@ extern "C" {
     #include <wlr/config.h>
     #include <wlr/util/log.h>
 
+    #include <wlr/types/wlr_cursor.h>
+    #include <wlr/types/wlr_xcursor_manager.h>
     #include <wlr/types/wlr_compositor.h>
     #include <wlr/types/wlr_matrix.h>
     #include <wlr/types/wlr_output.h>
@@ -37,6 +39,11 @@ extern "C" {
 #undef class
 #undef namespace
 
+class MarinaCursor;
+class MarinaServer;
+
+#include "marina-input.hpp"
+
 class MarinaServer {
 public:
     struct wl_display* wl_display;
@@ -51,6 +58,8 @@ public:
     struct wl_list outputs;
     
     struct wlr_output_layout *output_layout;
+
+    MarinaCursor* cursor;
 
     const char* socket;
 

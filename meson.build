@@ -18,6 +18,7 @@ executable(
         'src/main.cpp',
         'src/server.cpp',
         'src/input.cpp',
+        'src/cursor.cpp',
         'src/output.cpp',
         'src/xdgview.cpp',
         'src/xdgview_v6.cpp',

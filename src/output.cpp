@@ -26,6 +26,9 @@ MarinaOutput::MarinaOutput(struct wlr_output* wlr_output, MarinaServer* server) 
     wlr_output_create_global(wlr_output);
 
     this->renderer = wlr_backend_get_renderer(wlr_output->backend);
+    
+    wlr_xcursor_manager_load(server->cursor->xcursor_manager, wlr_output->scale);
+	wlr_xcursor_manager_set_cursor_image(server->cursor->xcursor_manager, "left_ptr", server->cursor->wlr_cursor);
 }
 
 MarinaOutput::~MarinaOutput() {
@@ -77,7 +80,7 @@ void MarinaOutput::frame_notify(struct wl_listener* listener, void* data) {
         }
     }
 
-    wlr_renderer_end(renderer);
     wlr_output_swap_buffers(wlr_output, NULL, NULL);
+    wlr_renderer_end(renderer);
 // End of GL Context
 }

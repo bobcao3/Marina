@@ -27,4 +27,24 @@ public:
     ~MarinaInput();
 };
 
+class MarinaCursor {
+public:
+    struct wl_listener motion;
+    struct wl_listener motion_absolute;
+
+    static void motion_notify(struct wl_listener* listener, void* data);
+    static void motion_absolute_notify(struct wl_listener* listener, void* data);
+
+public:
+    MarinaServer* server;
+    struct wlr_cursor* wlr_cursor;
+    struct wlr_xcursor_manager* xcursor_manager;
+
+    void bind_pointer(MarinaInput* input);
+    void detach_pointer(MarinaInput* input);
+
+    MarinaCursor(MarinaServer* server, struct wlr_output_layout* layout);
+    ~MarinaCursor();
+};
+
 #endif

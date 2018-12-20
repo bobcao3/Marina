@@ -22,7 +22,7 @@ public:
 
 public:
     MarinaServer* server;
-    struct wlr_output *wlr_output;
+    struct wlr_output* wlr_output;
     struct timespec last_frame;
 
     struct wl_list link;

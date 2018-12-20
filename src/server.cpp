@@ -93,6 +93,8 @@ MarinaServer::MarinaServer() {
     wl_list_init(&this->views);
 
     this->output_layout = wlr_output_layout_create();
+
+    this->cursor = new MarinaCursor(this, this->output_layout);
     
     this->new_output.notify = MarinaServer::new_output_notify;
     wl_signal_add(&this->backend->events.new_output, &this->new_output);
