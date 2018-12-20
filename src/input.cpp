@@ -8,11 +8,28 @@
 
 void MarinaInput::destroy_notify(struct wl_listener* listener, void* data) {
     MarinaInput* input = wl_container_of(listener, input, destroy);
+
+    if (input->device->type) {
+        input->server->cursor->detach_pointer(input);
+    }
+
     delete input;
 }
 
 void MarinaInput::keyboard_key_notify(struct wl_listener* listener, void* data) {
+	struct wlr_event_keyboard_key* event = (struct wlr_event_keyboard_key*) data;
+    MarinaInput* input = wl_container_of(listener, input, keyboard_key);
+	MarinaServer* server = input->server;
 
+	uint32_t keycode = event->keycode + 8;
+	const xkb_keysym_t *syms;
+	int nsyms = xkb_state_key_get_syms(input->device->keyboard->xkb_state, keycode, &syms);
+	for (int i = 0; i < nsyms; i++) {
+		xkb_keysym_t sym = syms[i];
+		if (sym == XKB_KEY_Escape) {
+			wl_display_terminate(server->wl_display);
+		}
+	}
 }
 
 void xkb_init(struct wlr_input_device* device) {
@@ -35,12 +52,12 @@ MarinaInput::MarinaInput(MarinaServer* server, struct wlr_input_device* device) 
     this->server = server;
     this->device = device;
 
-    switch (device->type) {
-    case WLR_INPUT_DEVICE_KEYBOARD:;
-        wlr_log(WLR_DEBUG, "New keyboard input device %x.", this);
+    this->destroy.notify = MarinaInput::destroy_notify;
+    wl_signal_add(&device->events.destroy, &this->destroy);
 
-        this->destroy.notify = MarinaInput::destroy_notify;
-        wl_signal_add(&device->events.destroy, &this->destroy);
+    switch (device->type) {
+    case WLR_INPUT_DEVICE_KEYBOARD:
+        wlr_log(WLR_DEBUG, "New keyboard input device %x.", this);
 
         this->keyboard_key.notify = MarinaInput::keyboard_key_notify;
         wl_signal_add(&device->keyboard->events.key, &this->keyboard_key);
@@ -51,7 +68,10 @@ MarinaInput::MarinaInput(MarinaServer* server, struct wlr_input_device* device) 
     case WLR_INPUT_DEVICE_POINTER:
     case WLR_INPUT_DEVICE_TOUCH:
     case WLR_INPUT_DEVICE_TABLET_TOOL:
+        server->cursor->bind_pointer(this);
+        break;
     case WLR_INPUT_DEVICE_TABLET_PAD:
+    default:
         break;
     }
 }
