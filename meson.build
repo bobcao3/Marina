@@ -7,6 +7,7 @@ wayland_server = dependency('wayland-server')
 wayland_proto  = dependency('wayland-protocols')
 wayland_client = dependency('wayland-client')
 xkbcommon      = dependency('xkbcommon')
+pixman         = dependency('pixman-1')
 
 incdir         = include_directories('src')
 
@@ -31,7 +32,8 @@ executable(
         wayland_server,
         wayland_proto,
         wlr_protos,
-        xkbcommon
+        xkbcommon,
+        pixman
     ],
     include_directories : [
         incdir
