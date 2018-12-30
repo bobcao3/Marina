@@ -24,6 +24,8 @@ extern "C" {
     #include <wlr/types/wlr_xcursor_manager.h>
     #include <wlr/types/wlr_compositor.h>
     #include <wlr/types/wlr_matrix.h>
+    #include <wlr/types/wlr_box.h>
+    #include <wlr/types/wlr_output_damage.h>
     #include <wlr/types/wlr_output.h>
     #include <wlr/types/wlr_output_layout.h>
     #include <wlr/types/wlr_wl_shell.h>
