@@ -38,11 +38,15 @@ void MarinaXDGV6View::map_notify(struct wl_listener* listener, void* data) {
     MarinaXDGV6View* view = wl_container_of(listener, view, map);
     view->mapped = true;
     // TODO : Focus this view
+
+    view->damage_whole();
 }
 
 void MarinaXDGV6View::unmap_notify(struct wl_listener* listener, void* data) {
     MarinaXDGV6View* view = wl_container_of(listener, view, unmap);
     view->mapped = false;
+
+    view->damage_whole();
 }
 
 void MarinaXDGV6View::destroy_notify(struct wl_listener* listener, void* data) {

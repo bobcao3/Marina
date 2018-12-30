@@ -34,6 +34,7 @@ public:
     struct wlr_renderer* renderer;
 
     static void scissor_output(struct wlr_output* wlr_output, struct wlr_renderer* renderer, pixman_box32_t *rect);
+    void damage_whole();
     void render_output();
 
     MarinaOutput(struct wlr_output* wlr_output, MarinaServer* server);

@@ -20,6 +20,9 @@ enum MarinaViewType {
 
 class MarinaView {
 public:
+    void damage_whole();
+
+public:
     MarinaServer* server;
 
     int x = 0, y = 0;

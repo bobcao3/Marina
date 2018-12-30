@@ -34,7 +34,7 @@ MarinaOutput::MarinaOutput(struct wlr_output* wlr_output, MarinaServer* server) 
     wlr_xcursor_manager_load(server->cursor->xcursor_manager, wlr_output->scale);
     wlr_xcursor_manager_set_cursor_image(server->cursor->xcursor_manager, "left_ptr", server->cursor->wlr_cursor);
 
-    wlr_output_damage_add_whole(this->damage);
+    this->damage_whole();
 }
 
 MarinaOutput::~MarinaOutput() {
@@ -71,6 +71,11 @@ void MarinaOutput::scissor_output(struct wlr_output* wlr_output, struct wlr_rend
     wlr_renderer_scissor(renderer, &box);
 }
 
+void MarinaOutput::damage_whole() {
+    wlr_output_damage_add_whole(this->damage);
+    wlr_log(WLR_DEBUG, "Damage whole");
+}
+
 void MarinaOutput::render_output() {
     assert(this->renderer);
 
@@ -80,8 +85,6 @@ void MarinaOutput::render_output() {
     const float clear_color[4] = {0.3f, 0.4f, 0.4f, 1.0f};
 
 // Beginning of GL Context
-    wlr_output_make_current(this->wlr_output, NULL);
-
     bool needs_swap;
     pixman_region32_t damage;
     pixman_box32_t *rects;
@@ -117,6 +120,7 @@ void MarinaOutput::render_output() {
         rdata.output   = this->wlr_output;
         rdata.view     = view;
         rdata.renderer = renderer;
+        rdata.damage   = &damage;
         rdata.when     = &now;
 
         if (view->type == XDG_SHELL) {

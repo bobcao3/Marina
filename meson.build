@@ -21,6 +21,7 @@ executable(
         'src/input.cpp',
         'src/cursor.cpp',
         'src/output.cpp',
+        'src/view.cpp',
         'src/xdgview.cpp',
         'src/xdgview_v6.cpp',
         'src/renderer.cpp'

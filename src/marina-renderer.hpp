@@ -19,6 +19,7 @@ public:
     struct wlr_output* output;
     struct wlr_renderer* renderer;
     MarinaView* view;
+    pixman_region32_t* damage;
     struct timespec* when;
 
     static void render_surface(struct wlr_surface* surface, int sx, int sy, void* data);
