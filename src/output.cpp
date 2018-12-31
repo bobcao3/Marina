@@ -73,7 +73,6 @@ void MarinaOutput::scissor_output(struct wlr_output* wlr_output, struct wlr_rend
 
 void MarinaOutput::damage_whole() {
     wlr_output_damage_add_whole(this->damage);
-    wlr_log(WLR_DEBUG, "Damage whole");
 }
 
 void MarinaOutput::render_output() {

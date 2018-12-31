@@ -37,6 +37,10 @@ int MarinaServer::run_server() {
     this->new_xdg_v6_surface.notify = new_xdg_v6_surface_notify;
     wl_signal_add(&this->xdg_v6_shell->events.new_surface, &this->new_xdg_v6_surface);
 
+    this->server_decoration_manager = wlr_server_decoration_manager_create(this->wl_display);
+
+    wlr_server_decoration_manager_set_default_mode(this->server_decoration_manager, WLR_SERVER_DECORATION_MANAGER_MODE_SERVER);
+
     wl_display_run(this->wl_display);
     return 0;
 }
@@ -107,6 +111,7 @@ MarinaServer::MarinaServer() {
 }
 
 MarinaServer::~MarinaServer() {
+    wlr_server_decoration_manager_destroy(this->server_decoration_manager);
     wlr_backend_destroy(this->backend);
     wl_display_destroy(this->wl_display);
 }

@@ -35,6 +35,7 @@ extern "C" {
     #include <wlr/types/wlr_gamma_control.h>
     #include <wlr/types/wlr_idle.h>
     #include <wlr/types/wlr_primary_selection.h>
+    #include <wlr/types/wlr_server_decoration.h>
 }
 
 #undef static
@@ -53,13 +54,15 @@ public:
 
     struct wlr_backend* backend;
     struct wlr_compositor* compositor;
-    struct wlr_xdg_shell *xdg_shell;
-    struct wlr_xdg_shell_v6 *xdg_v6_shell;
+    struct wlr_xdg_shell* xdg_shell;
+    struct wlr_xdg_shell_v6* xdg_v6_shell;
 	
 	struct wl_list views;
     struct wl_list outputs;
     
-    struct wlr_output_layout *output_layout;
+    struct wlr_output_layout* output_layout;
+
+    struct wlr_server_decoration_manager* server_decoration_manager;
 
     MarinaCursor* cursor;
 
