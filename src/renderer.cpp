@@ -51,5 +51,6 @@ void MarinaRenderer::render_surface(struct wlr_surface* surface, int sx, int sy,
     }
 
 damage_finish:
+    pixman_region32_fini(&damage);
     wlr_surface_send_frame_done(surface, renderer->when);
 }
