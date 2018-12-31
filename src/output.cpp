@@ -98,14 +98,14 @@ void MarinaOutput::render_output() {
         goto damage_finish;
     }
 
+    int width, height;
+    wlr_output_effective_resolution(this->wlr_output, &width, &height);
+    wlr_renderer_begin(renderer, width, height);
+
     if (!pixman_region32_not_empty(&damage)) {
         // Output isn't damaged but needs buffer swap
         goto renderer_end;
     }
-
-    int width, height;
-    wlr_output_effective_resolution(this->wlr_output, &width, &height);
-    wlr_renderer_begin(renderer, width, height);
 
     int nrects;
     rects = pixman_region32_rectangles(&damage, &nrects);
