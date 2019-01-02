@@ -20,6 +20,8 @@ enum MarinaViewType {
 
 class MarinaView {
 public:
+    static void iterate_view_by_type(MarinaView* view, wlr_surface_iterator_func_t func, void* user_data);
+
     MarinaServer* server;
 
     int x = 0, y = 0;

@@ -122,13 +122,7 @@ void MarinaOutput::render_output() {
         rdata.damage   = &damage;
         rdata.when     = &now;
 
-        if (view->type == XDG_SHELL) {
-            wlr_xdg_surface_for_each_surface(((MarinaXDGView*)view)->xdg_surface, MarinaRenderer::render_surface, &rdata);
-        } else if (view->type == XDG_SHELL_V6) {
-            wlr_xdg_surface_v6_for_each_surface(((MarinaXDGV6View*)view)->xdg_surface, MarinaRenderer::render_surface, &rdata);
-        } else {
-            wlr_log(WLR_ERROR, "View 0x%x with undefined type!", view);
-        }
+        MarinaView::iterate_view_by_type(view, MarinaRenderer::render_surface, &rdata);
     }
 
 renderer_end:
