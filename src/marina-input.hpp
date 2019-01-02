@@ -7,7 +7,10 @@
 #ifndef __INCLUDE_MARINA_INPUT_HPP
 #define __INCLUDE_MARINA_INPUT_HPP
 
+class MarinaInput;
+
 #include "marina-server.hpp"
+#include "marina-seat.hpp"
 
 #include <xkbcommon/xkbcommon.h>
 

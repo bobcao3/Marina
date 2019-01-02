@@ -55,6 +55,9 @@ MarinaInput::MarinaInput(MarinaServer* server, struct wlr_input_device* device) 
     this->destroy.notify = MarinaInput::destroy_notify;
     wl_signal_add(&device->events.destroy, &this->destroy);
 
+    MarinaSeat* default_seat = server->seats[default_seat_name];
+    assert(default_seat);
+
     switch (device->type) {
     case WLR_INPUT_DEVICE_KEYBOARD:
         wlr_log(WLR_DEBUG, "New keyboard input device %x.", this);
@@ -64,8 +67,12 @@ MarinaInput::MarinaInput(MarinaServer* server, struct wlr_input_device* device) 
 
         xkb_init(device);
 
+        default_seat->add_keyboard(this);
+
         break;
     case WLR_INPUT_DEVICE_POINTER:
+        default_seat->add_pointer(this);
+
     case WLR_INPUT_DEVICE_TOUCH:
     case WLR_INPUT_DEVICE_TABLET_TOOL:
         server->cursor->bind_pointer(this);

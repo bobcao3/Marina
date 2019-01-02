@@ -20,6 +20,7 @@ executable(
         'src/server.cpp',
         'src/input.cpp',
         'src/cursor.cpp',
+        'src/seat.cpp',
         'src/output.cpp',
         'src/view.cpp',
         'src/xdgview.cpp',
