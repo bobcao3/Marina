@@ -92,9 +92,6 @@ MarinaServer::MarinaServer() {
     this->backend = wlr_backend_autocreate(this->wl_display, NULL);
     assert(this->backend);
 
-    wl_list_init(&this->outputs);
-    wl_list_init(&this->views);
-
     this->output_layout = wlr_output_layout_create();
 
     this->seats[default_seat_name] = new MarinaSeat(this, default_seat_name);

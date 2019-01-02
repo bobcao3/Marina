@@ -31,7 +31,7 @@ MarinaXDGView::MarinaXDGView(MarinaServer* server, wlr_xdg_surface* xdg_surface)
     this->request_resize.notify = request_resize_notify;
     wl_signal_add(&toplevel->events.request_resize, &this->request_resize);
 
-    wl_list_insert(&server->views, &this->link);
+    server->views.push_back(this);
 }
 
 void MarinaXDGView::map_notify(struct wl_listener* listener, void* data) {
@@ -51,7 +51,7 @@ void MarinaXDGView::unmap_notify(struct wl_listener* listener, void* data) {
 
 void MarinaXDGView::destroy_notify(struct wl_listener* listener, void* data) {
     MarinaXDGView* view = wl_container_of(listener, view, destroy);
-    wl_list_remove(&view->link);
+    view->server->views.remove(view);
     delete view;
 }
 

@@ -8,6 +8,7 @@
 
 #include <string>
 #include <map>
+#include <list>
 
 #include <wayland-server.h>
 
@@ -48,8 +49,12 @@ extern "C" {
 class MarinaCursor;
 class MarinaServer;
 class MarinaSeat;
+class MarinaView;
+class MarinaOutput;
 
+#include "marina-view.hpp"
 #include "marina-input.hpp"
+#include "marina-output.hpp"
 #include "marina-seat.hpp"
 
 #define default_seat_name "seat0"
@@ -64,8 +69,8 @@ public:
     struct wlr_xdg_shell* xdg_shell;
     struct wlr_xdg_shell_v6* xdg_v6_shell;
 	
-	struct wl_list views;
-    struct wl_list outputs;
+	std::list<MarinaView*> views;
+    std::list<MarinaOutput*> outputs;
     
     struct wlr_output_layout* output_layout;
 

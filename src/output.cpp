@@ -14,7 +14,9 @@ MarinaOutput::MarinaOutput(struct wlr_output* wlr_output, MarinaServer* server) 
     this->server = server;
     this->wlr_output = wlr_output;
     this->damage = wlr_output_damage_create(wlr_output);
-    wl_list_insert(&server->outputs, &this->link);
+    //wl_list_insert(&server->outputs, &this->link);
+
+    server->outputs.push_back(this);
 
     this->destroy.notify = destroy_notify;
     wl_signal_add(&wlr_output->events.destroy, &this->destroy);
@@ -38,7 +40,7 @@ MarinaOutput::MarinaOutput(struct wlr_output* wlr_output, MarinaServer* server) 
 }
 
 MarinaOutput::~MarinaOutput() {
-    wl_list_remove(&this->link);
+    this->server->outputs.remove(this);
     wl_list_remove(&this->destroy.link);
     wl_list_remove(&this->damage_destroy.link);
     wl_list_remove(&this->damage_frame.link);
@@ -113,8 +115,9 @@ void MarinaOutput::render_output() {
         wlr_renderer_clear(this->renderer, clear_color);
     }
 
-    MarinaView* view;
-    wl_list_for_each_reverse(view, &server->views, link) {
+//    MarinaView* view;
+//    wl_list_for_each_reverse(view, &server->views, link) {
+    for (MarinaView* view : server->views) {
         MarinaRenderer rdata;
         rdata.output   = this->wlr_output;
         rdata.view     = view;

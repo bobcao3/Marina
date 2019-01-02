@@ -5,6 +5,7 @@
 
 
 #include "marina-input.hpp"
+#include "marina-output.hpp"
 
 const char* cursor_theme_name = "Adwaita";
 const int cursor_size = 16;
