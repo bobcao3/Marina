@@ -21,6 +21,7 @@ enum MarinaViewType {
 class MarinaView {
 public:
     static void iterate_view_by_type(MarinaView* view, wlr_surface_iterator_func_t func, void* user_data);
+    static MarinaView* view_at(MarinaServer* server, double lx, double ly, struct wlr_surface** surface, double* sx, double* sy);
 
     MarinaServer* server;
 
@@ -33,6 +34,8 @@ public:
     struct wl_list link;
 
 public:
+    bool is_view_at(double lx, double ly, struct wlr_surface** surface, double* sx, double* sy);
+
     void damage_whole();
     void activate();
 };
