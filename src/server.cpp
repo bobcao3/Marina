@@ -38,7 +38,6 @@ int MarinaServer::run_server() {
     wl_signal_add(&this->xdg_v6_shell->events.new_surface, &this->new_xdg_v6_surface);
 
     this->server_decoration_manager = wlr_server_decoration_manager_create(this->wl_display);
-
     wlr_server_decoration_manager_set_default_mode(this->server_decoration_manager, WLR_SERVER_DECORATION_MANAGER_MODE_SERVER);
 
     wl_display_run(this->wl_display);
@@ -97,6 +96,8 @@ MarinaServer::MarinaServer() {
     wl_list_init(&this->views);
 
     this->output_layout = wlr_output_layout_create();
+
+    this->seats[default_seat_name] = new MarinaSeat(this, default_seat_name);
 
     this->cursor = new MarinaCursor(this, this->output_layout);
     

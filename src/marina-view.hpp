@@ -20,17 +20,19 @@ enum MarinaViewType {
 
 class MarinaView {
 public:
-    void damage_whole();
-
-public:
     MarinaServer* server;
 
     int x = 0, y = 0;
 	bool mapped = false;
+    bool activated = false;
 
     int type = UNDEFINED;
 
     struct wl_list link;
+
+public:
+    void damage_whole();
+    void activate();
 };
 
 #endif

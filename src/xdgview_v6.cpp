@@ -37,7 +37,7 @@ MarinaXDGV6View::MarinaXDGV6View(MarinaServer* server, wlr_xdg_surface_v6* xdg_s
 void MarinaXDGV6View::map_notify(struct wl_listener* listener, void* data) {
     MarinaXDGV6View* view = wl_container_of(listener, view, map);
     view->mapped = true;
-    // TODO : Focus this view
+    view->activate();
 
     view->damage_whole();
 }
@@ -65,4 +65,11 @@ void MarinaXDGV6View::request_resize_notify(struct wl_listener* listener, void* 
     struct wlr_xdg_toplevel_resize_event* event = (struct wlr_xdg_toplevel_resize_event*) data;
     MarinaXDGV6View* view = wl_container_of(listener, view, request_resize);
 
+}
+
+void MarinaXDGV6View::activate() {
+    this->activated = true;
+    if (this->xdg_surface->role == WLR_XDG_SURFACE_V6_ROLE_TOPLEVEL) {
+        wlr_xdg_toplevel_v6_set_activated(this->xdg_surface, activated);
+    }
 }

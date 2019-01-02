@@ -30,6 +30,8 @@ public:
     static void request_move_notify(struct wl_listener* listener, void* data);
     static void request_resize_notify(struct wl_listener* listener, void* data);
 
+    void activate();
+
     MarinaXDGV6View(MarinaServer* server, struct wlr_xdg_surface_v6* xdg_surface_v6);
 };
 

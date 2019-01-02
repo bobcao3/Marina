@@ -13,3 +13,7 @@ void MarinaView::damage_whole() {
         output->damage_whole();
     }
 }
+
+void MarinaView::activate() {
+    this->activated = true;
+}

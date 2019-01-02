@@ -6,6 +6,9 @@
 #include <stdio.h>
 #include <assert.h>
 
+#include <string>
+#include <map>
+
 #include <wayland-server.h>
 
 // "Deal" with those headers that almost designed to break C++ support
@@ -44,8 +47,12 @@ extern "C" {
 
 class MarinaCursor;
 class MarinaServer;
+class MarinaSeat;
 
 #include "marina-input.hpp"
+#include "marina-seat.hpp"
+
+#define default_seat_name "seat0"
 
 class MarinaServer {
 public:
@@ -65,6 +72,7 @@ public:
     struct wlr_server_decoration_manager* server_decoration_manager;
 
     MarinaCursor* cursor;
+    std::map<std::string, MarinaSeat*> seats;
 
     const char* socket;
 
