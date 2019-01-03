@@ -54,6 +54,7 @@ void MarinaXDGV6View::unmap_notify(struct wl_listener* listener, void* data) {
 void MarinaXDGV6View::destroy_notify(struct wl_listener* listener, void* data) {
     MarinaXDGV6View* view = wl_container_of(listener, view, destroy);
     view->server->views.remove(view);
+    wlr_log(WLR_DEBUG, "MarinaXDGV6View %x destroied", view);
     delete view;
 }
 

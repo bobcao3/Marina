@@ -24,17 +24,20 @@ int MarinaServer::run_server() {
     wl_display_init_shm(this->wl_display);
     wlr_gamma_control_manager_create(this->wl_display);
     wlr_screenshooter_create(this->wl_display);
+    wlr_data_device_manager_create(this->wl_display);
 
     this->export_dmabuf_manager_v1 = wlr_export_dmabuf_manager_v1_create(this->wl_display);
 
     this->idle = wlr_idle_create(this->wl_display);
     this->idle_inhibit = wlr_idle_inhibit_v1_create(this->wl_display);
 
-    this->linux_dmabuf = wlr_linux_dmabuf_v1_create(this->wl_display, wlr_backend_get_renderer(this->backend));
+    struct wlr_renderer* renderer = wlr_backend_get_renderer(this->backend);
+
+    this->linux_dmabuf = wlr_linux_dmabuf_v1_create(this->wl_display, renderer);
 
     this->primary_selection_device_manager = wlr_gtk_primary_selection_device_manager_create(this->wl_display);
 
-    this->compositor = wlr_compositor_create(this->wl_display, wlr_backend_get_renderer(this->backend));
+    this->compositor = wlr_compositor_create(this->wl_display, renderer);
 
     this->xdg_shell = wlr_xdg_shell_create(this->wl_display);
 
@@ -112,6 +115,8 @@ MarinaServer::MarinaServer() {
     // Create wlroots backend
     this->backend = wlr_backend_autocreate(this->wl_display, NULL);
     assert(this->backend);
+
+    wlr_renderer_init_wl_display(wlr_backend_get_renderer(this->backend), this->wl_display);
 
     this->output_layout = wlr_output_layout_create();
 
