@@ -34,9 +34,11 @@ class MarinaCursor {
 public:
     struct wl_listener motion;
     struct wl_listener motion_absolute;
+    struct wl_listener button;
 
     static void motion_notify(struct wl_listener* listener, void* data);
     static void motion_absolute_notify(struct wl_listener* listener, void* data);
+    static void button_notify(struct wl_listener* listener, void* data);
 
 public:
     MarinaServer* server;
