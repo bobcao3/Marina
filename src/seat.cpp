@@ -56,6 +56,8 @@ void MarinaSeat::process_cursor_motion(struct wlr_cursor* wlr_cursor, uint32_t t
     struct wlr_surface* surface = NULL;
     MarinaView* view = MarinaView::view_at(this->server, wlr_cursor->x, wlr_cursor->y, &surface, &sx, &sy);
 
+    wlr_idle_notify_activity(this->server->idle, this->seat);
+
     if (surface) {
         wlr_seat_pointer_notify_enter(this->seat, surface, sx, sy);
         if (time > 0) {
@@ -70,6 +72,8 @@ void MarinaSeat::process_cursor_button(struct wlr_cursor* wlr_cursor, uint32_t t
     double sx, sy;
     struct wlr_surface* surface = NULL;
     MarinaView* view = MarinaView::view_at(this->server, wlr_cursor->x, wlr_cursor->y, &surface, &sx, &sy);
+
+    wlr_idle_notify_activity(this->server->idle, this->seat);
 
     if (view != this->active_view || surface != this->active_surface) focus_view(view, surface);
 

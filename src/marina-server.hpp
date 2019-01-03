@@ -28,6 +28,8 @@ extern "C" {
     #include <wlr/types/wlr_cursor.h>
     #include <wlr/types/wlr_xcursor_manager.h>
     #include <wlr/types/wlr_compositor.h>
+    #include <wlr/types/wlr_linux_dmabuf_v1.h>
+    #include <wlr/types/wlr_export_dmabuf_v1.h>
     #include <wlr/types/wlr_matrix.h>
     #include <wlr/types/wlr_box.h>
     #include <wlr/types/wlr_output_damage.h>
@@ -39,7 +41,9 @@ extern "C" {
     #include <wlr/types/wlr_screenshooter.h>
     #include <wlr/types/wlr_gamma_control.h>
     #include <wlr/types/wlr_idle.h>
+    #include <wlr/types/wlr_idle_inhibit_v1.h>
     #include <wlr/types/wlr_primary_selection.h>
+    #include <wlr/types/wlr_gtk_primary_selection.h>
     #include <wlr/types/wlr_server_decoration.h>
 }
 
@@ -67,8 +71,13 @@ public:
 
     struct wlr_backend* backend;
     struct wlr_compositor* compositor;
+    struct wlr_export_dmabuf_manager_v1* export_dmabuf_manager_v1;
     struct wlr_xdg_shell* xdg_shell;
     struct wlr_xdg_shell_v6* xdg_v6_shell;
+    struct wlr_idle* idle;
+    struct wlr_idle_inhibit_manager_v1* idle_inhibit;
+    struct wlr_linux_dmabuf_v1* linux_dmabuf;
+    struct wlr_gtk_primary_selection_device_manager* primary_selection_device_manager;
 	
 	std::list<MarinaView*> views;
     std::list<MarinaOutput*> outputs;

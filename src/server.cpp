@@ -23,7 +23,15 @@ int MarinaServer::run_server() {
     wl_display_init_shm(this->wl_display);
     wlr_gamma_control_manager_create(this->wl_display);
     wlr_screenshooter_create(this->wl_display);
-    wlr_idle_create(this->wl_display);
+
+    this->export_dmabuf_manager_v1 = wlr_export_dmabuf_manager_v1_create(this->wl_display);
+
+    this->idle = wlr_idle_create(this->wl_display);
+    this->idle_inhibit = wlr_idle_inhibit_v1_create(this->wl_display);
+
+    this->linux_dmabuf = wlr_linux_dmabuf_v1_create(this->wl_display, wlr_backend_get_renderer(this->backend));
+
+    this->primary_selection_device_manager = wlr_gtk_primary_selection_device_manager_create(this->wl_display);
 
     this->compositor = wlr_compositor_create(this->wl_display, wlr_backend_get_renderer(this->backend));
 
@@ -110,6 +118,9 @@ MarinaServer::MarinaServer() {
 
 MarinaServer::~MarinaServer() {
     wlr_server_decoration_manager_destroy(this->server_decoration_manager);
+    wlr_gtk_primary_selection_device_manager_destroy(this->primary_selection_device_manager);
+    wlr_idle_destroy(this->idle);
+    wlr_idle_inhibit_v1_destroy(this->idle_inhibit);
     wlr_backend_destroy(this->backend);
     wl_display_destroy(this->wl_display);
 }
