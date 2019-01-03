@@ -1,4 +1,6 @@
-project('marina','c','cpp',license : 'BSD-3')
+project('marina','c','cpp',license : 'BSD-3',
+    default_options : ['c_std=c11', 'cpp_std=c++14']
+)
 
 egl            = dependency('egl')
 elesv2         = dependency('glesv2')
