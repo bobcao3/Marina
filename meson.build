@@ -25,6 +25,7 @@ executable(
         'src/seat.cpp',
         'src/output.cpp',
         'src/view.cpp',
+        'src/wlview.cpp',
         'src/xdgview.cpp',
         'src/xdgview_v6.cpp',
         'src/renderer.cpp'

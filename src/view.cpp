@@ -8,6 +8,7 @@
 #include "marina-output.hpp"
 #include "marina-xdg-v6-view.hpp"
 #include "marina-xdg-view.hpp"
+#include "marina-wl-view.hpp"
 
 void MarinaView::damage_whole() {
     for (MarinaOutput* output : server->outputs) {
@@ -25,6 +26,8 @@ void MarinaView::activate() {
         ((MarinaXDGView*)this)->activate();
     } else if (this->type == XDG_SHELL_V6) {
         ((MarinaXDGV6View*)this)->activate();
+    } else if (this->type == WL_SHELL) {
+
     } else {
         wlr_log(WLR_ERROR, "View 0x%x with undefined type!", this);
     }
@@ -39,6 +42,8 @@ void MarinaView::iterate_view_by_type(MarinaView* view, wlr_surface_iterator_fun
         wlr_xdg_surface_for_each_surface(((MarinaXDGView*)view)->xdg_surface, func, user_data);
     } else if (view->type == XDG_SHELL_V6) {
         wlr_xdg_surface_v6_for_each_surface(((MarinaXDGV6View*)view)->xdg_surface, func, user_data);
+    } else if (view->type == WL_SHELL) {
+        wlr_wl_shell_surface_for_each_surface(((MarinaWLView*)view)->wl_shell_surface, func, user_data);
     } else {
         wlr_log(WLR_ERROR, "View 0x%x with undefined type!", view);
     }
@@ -54,6 +59,8 @@ bool MarinaView::is_view_at(double lx, double ly, struct wlr_surface** surface, 
         _surface = wlr_xdg_surface_surface_at(((MarinaXDGView*)this)->xdg_surface, view_sx, view_sy, &_sx, &_sy);
     } else if (this->type == XDG_SHELL_V6) {
         _surface = wlr_xdg_surface_v6_surface_at(((MarinaXDGV6View*)this)->xdg_surface, view_sx, view_sy, &_sx, &_sy);
+    } else if (this->type == WL_SHELL) {
+        _surface = wlr_wl_shell_surface_surface_at(((MarinaWLView*)this)->wl_shell_surface, view_sx, view_sy, &_sx, &_sy);
     } else {
         return false;
     }

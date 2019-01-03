@@ -9,6 +9,7 @@
 #include "marina-output.hpp"
 #include "marina-xdg-view.hpp"
 #include "marina-xdg-v6-view.hpp"
+#include "marina-wl-view.hpp"
 
 int MarinaServer::run_server() {
     if (!wlr_backend_start(this->backend)) {
@@ -45,6 +46,11 @@ int MarinaServer::run_server() {
     this->new_xdg_v6_surface.notify = new_xdg_v6_surface_notify;
     wl_signal_add(&this->xdg_v6_shell->events.new_surface, &this->new_xdg_v6_surface);
 
+    this->wl_shell = wlr_wl_shell_create(this->wl_display);
+
+    this->new_wl_surface.notify = new_wl_surface_notify;
+    wl_signal_add(&this->wl_shell->events.new_surface, &this->new_wl_surface);
+
     this->server_decoration_manager = wlr_server_decoration_manager_create(this->wl_display);
     wlr_server_decoration_manager_set_default_mode(this->server_decoration_manager, WLR_SERVER_DECORATION_MANAGER_MODE_SERVER);
 
@@ -68,6 +74,13 @@ void MarinaServer::new_xdg_surface_notify(struct wl_listener *listener, void* da
     if (xdg_surface->role != WLR_XDG_SURFACE_ROLE_TOPLEVEL) { return; }
     
     __attribute__((unused)) MarinaXDGView* view = new MarinaXDGView(server, xdg_surface);
+}
+
+void MarinaServer::new_wl_surface_notify(struct wl_listener *listener, void* data) {
+    MarinaServer* server = wl_container_of(listener, server, new_xdg_surface);
+    struct wlr_wl_shell_surface* wl_surface = (struct wlr_wl_shell_surface*) data;
+
+    __attribute__((unused)) MarinaWLView* view = new MarinaWLView(server, wl_surface);
 }
 
 void MarinaServer::new_input_notify(struct wl_listener *listener, void* data) {

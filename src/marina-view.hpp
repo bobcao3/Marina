@@ -15,7 +15,8 @@ enum MarinaViewType {
     UNDEFINED,
     XDG_SHELL,
     XDG_SHELL_V6,
-    LAYER_SHELL
+    LAYER_SHELL,
+    WL_SHELL
 };
 
 class MarinaView {

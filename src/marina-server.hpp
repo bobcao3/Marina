@@ -37,6 +37,7 @@ extern "C" {
     #include <wlr/types/wlr_output_layout.h>
     #include <wlr/types/wlr_wl_shell.h>
     #include <wlr/types/wlr_xdg_shell.h>
+    #include <wlr/types/wlr_wl_shell.h>
     #include <wlr/types/wlr_xdg_shell_v6.h>
     #include <wlr/types/wlr_screenshooter.h>
     #include <wlr/types/wlr_gamma_control.h>
@@ -74,6 +75,7 @@ public:
     struct wlr_export_dmabuf_manager_v1* export_dmabuf_manager_v1;
     struct wlr_xdg_shell* xdg_shell;
     struct wlr_xdg_shell_v6* xdg_v6_shell;
+    struct wlr_wl_shell* wl_shell;
     struct wlr_idle* idle;
     struct wlr_idle_inhibit_manager_v1* idle_inhibit;
     struct wlr_linux_dmabuf_v1* linux_dmabuf;
@@ -95,12 +97,14 @@ public:
     struct wl_listener new_output;
     struct wl_listener new_xdg_surface;
     struct wl_listener new_xdg_v6_surface;
+    struct wl_listener new_wl_surface;
     struct wl_listener new_input;
 
     static void new_input_notify(struct wl_listener* listener, void* data);
     static void new_output_notify(struct wl_listener* listener, void* data);
     static void new_xdg_surface_notify(struct wl_listener* listener, void* data);
     static void new_xdg_v6_surface_notify(struct wl_listener* listener, void* data);
+    static void new_wl_surface_notify(struct wl_listener* listener, void* data);
 
 public:
     int run_server();
