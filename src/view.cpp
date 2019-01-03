@@ -20,6 +20,14 @@ void MarinaView::activate() {
 
     this->server->views.remove(this);
     this->server->views.push_back(this);
+
+    if (this->type == XDG_SHELL) {
+        ((MarinaXDGView*)this)->activate();
+    } else if (this->type == XDG_SHELL_V6) {
+        ((MarinaXDGV6View*)this)->activate();
+    } else {
+        wlr_log(WLR_ERROR, "View 0x%x with undefined type!", this);
+    }
 }
 
 void MarinaView::deactivate() {

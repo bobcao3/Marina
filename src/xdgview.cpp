@@ -38,7 +38,7 @@ void MarinaXDGView::map_notify(struct wl_listener* listener, void* data) {
     MarinaXDGView* view = wl_container_of(listener, view, map);
     view->mapped = true;
 
-    view->server->seats[default_seat_name]->focus_view(view, view->xdg_surface->surface);    
+    view->server->seats[default_seat_name]->focus_view(view, view->xdg_surface->surface);
 
     view->damage_whole();
 }
@@ -66,4 +66,11 @@ void MarinaXDGView::request_resize_notify(struct wl_listener* listener, void* da
     struct wlr_xdg_toplevel_resize_event* event = (struct wlr_xdg_toplevel_resize_event*) data;
     MarinaXDGView* view = wl_container_of(listener, view, request_resize);
 
+}
+
+void MarinaXDGView::activate() {
+    this->activated = true;
+    if (this->xdg_surface->role == WLR_XDG_SURFACE_ROLE_TOPLEVEL) {
+        wlr_xdg_toplevel_set_activated(this->xdg_surface, activated);
+    }
 }
