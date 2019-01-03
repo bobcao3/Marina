@@ -38,6 +38,7 @@ public:
 
     void damage_whole();
     void activate();
+    void deactivate();
 };
 
 #endif

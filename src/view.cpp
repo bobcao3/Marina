@@ -10,13 +10,19 @@
 #include "marina-xdg-view.hpp"
 
 void MarinaView::damage_whole() {
-    //MarinaOutput* output;
     for (MarinaOutput* output : server->outputs) {
         output->damage_whole();
     }
 }
 
 void MarinaView::activate() {
+    this->activated = true;
+
+    this->server->views.remove(this);
+    this->server->views.push_back(this);
+}
+
+void MarinaView::deactivate() {
     this->activated = true;
 }
 
@@ -55,5 +61,11 @@ bool MarinaView::is_view_at(double lx, double ly, struct wlr_surface** surface, 
 }
 
 MarinaView* MarinaView::view_at(MarinaServer* server, double lx, double ly, struct wlr_surface** surface, double* sx, double* sy) {
+    for (std::list<MarinaView*>::reverse_iterator rit=server->views.rbegin(); rit!=server->views.rend(); ++rit) {
+        MarinaView* view = *rit;
+        if (view->is_view_at(lx, ly, surface, sx, sy)) {
+            return view;
+        }
+    }
     return NULL;
 }

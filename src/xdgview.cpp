@@ -37,7 +37,8 @@ MarinaXDGView::MarinaXDGView(MarinaServer* server, wlr_xdg_surface* xdg_surface)
 void MarinaXDGView::map_notify(struct wl_listener* listener, void* data) {
     MarinaXDGView* view = wl_container_of(listener, view, map);
     view->mapped = true;
-    // TODO : Focus this view
+
+    view->server->seats[default_seat_name]->focus_view(view, view->xdg_surface->surface);    
 
     view->damage_whole();
 }

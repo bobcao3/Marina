@@ -39,6 +39,8 @@ void MarinaXDGV6View::map_notify(struct wl_listener* listener, void* data) {
     view->mapped = true;
     view->activate();
 
+    view->server->seats[default_seat_name]->focus_view(view, view->xdg_surface->surface);    
+
     view->damage_whole();
 }
 
