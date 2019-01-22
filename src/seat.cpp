@@ -17,17 +17,17 @@ MarinaSeat::~MarinaSeat() {
 
 void MarinaSeat::add_keyboard(MarinaInput* input) {
     wlr_seat_set_keyboard(this->seat, input->device);
-    this->keyboards.push_back(input);
+    this->keyboards.insert(input);
     this->update_capabilities();
 }
 
 void MarinaSeat::add_pointer(MarinaInput* input) {
-    this->pointers.push_back(input);
+    this->pointers.insert(input);
     this->update_capabilities();
 }
 
 void MarinaSeat::add_touch(MarinaInput* input) {
-    this->touches.push_back(input);
+    this->touches.insert(input);
     this->update_capabilities();
 }
 
@@ -78,6 +78,14 @@ void MarinaSeat::process_cursor_button(struct wlr_cursor* wlr_cursor, uint32_t t
     if (view != this->active_view || surface != this->active_surface) focus_view(view, surface);
 
     if (time > 0) wlr_seat_pointer_send_button(this->seat, time, button, state);
+}
+
+void MarinaSeat::process_keyboard_key(uint32_t time, uint32_t keycode, uint32_t state) {
+    wlr_idle_notify_activity(this->server->idle, this->seat);
+
+    if (time > 0) {
+        wlr_seat_keyboard_send_key(this->seat, time, keycode, state);
+    }
 }
 
 void MarinaSeat::focus_view(MarinaView* view, struct wlr_surface* surface) {

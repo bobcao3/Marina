@@ -9,6 +9,7 @@
 #include <string>
 #include <map>
 #include <list>
+#include <set>
 #include <iterator>
 
 #include <wayland-server.h>

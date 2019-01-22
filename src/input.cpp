@@ -22,7 +22,8 @@ void MarinaInput::keyboard_key_notify(struct wl_listener* listener, void* data) 
 	MarinaServer* server = input->server;
 
 	uint32_t keycode = event->keycode + 8;
-	const xkb_keysym_t *syms;
+	
+    const xkb_keysym_t *syms;
 	int nsyms = xkb_state_key_get_syms(input->device->keyboard->xkb_state, keycode, &syms);
 	for (int i = 0; i < nsyms; i++) {
 		xkb_keysym_t sym = syms[i];
@@ -30,6 +31,13 @@ void MarinaInput::keyboard_key_notify(struct wl_listener* listener, void* data) 
 			wl_display_terminate(server->wl_display);
 		}
 	}
+
+    for (const auto& p : server->seats) {
+        MarinaSeat* seat = p.second;
+        if (seat->keyboards.find(input) != seat->keyboards.end()) {
+            seat->process_keyboard_key(event->time_msec, event->keycode, event->state);
+        }
+    }
 }
 
 void xkb_init(struct wlr_input_device* device) {

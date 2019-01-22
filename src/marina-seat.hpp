@@ -20,9 +20,9 @@ class MarinaSeat {
 public:
     MarinaServer* server;
 
-    std::vector<MarinaInput*> keyboards;
-    std::vector<MarinaInput*> pointers;
-    std::vector<MarinaInput*> touches;
+    std::set<MarinaInput*> keyboards;
+    std::set<MarinaInput*> pointers;
+    std::set<MarinaInput*> touches;
 
     struct wlr_seat* seat;
 
@@ -38,6 +38,7 @@ public:
 
     void process_cursor_motion(struct wlr_cursor* wlr_cursor, uint32_t time);
     void process_cursor_button(struct wlr_cursor* wlr_cursor, uint32_t time, uint32_t button, uint32_t state);
+    void process_keyboard_key(uint32_t time, uint32_t keycode, uint32_t state);
 
     MarinaSeat(MarinaServer* server, const char* name);
     ~MarinaSeat();
