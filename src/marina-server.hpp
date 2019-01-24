@@ -27,6 +27,7 @@ extern "C" {
     #include <wlr/util/log.h>
 
     #include <wlr/types/wlr_cursor.h>
+    #include <wlr/types/wlr_keyboard.h>
     #include <wlr/types/wlr_xcursor_manager.h>
     #include <wlr/types/wlr_compositor.h>
     #include <wlr/types/wlr_linux_dmabuf_v1.h>

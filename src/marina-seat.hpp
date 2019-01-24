@@ -39,6 +39,7 @@ public:
     void process_cursor_motion(struct wlr_cursor* wlr_cursor, uint32_t time);
     void process_cursor_button(struct wlr_cursor* wlr_cursor, uint32_t time, uint32_t button, uint32_t state);
     void process_keyboard_key(uint32_t time, uint32_t keycode, uint32_t state);
+    void process_keyboard_modifiers(struct wlr_keyboard_modifiers* modifiers);
 
     MarinaSeat(MarinaServer* server, const char* name);
     ~MarinaSeat();

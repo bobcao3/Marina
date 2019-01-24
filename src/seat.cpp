@@ -88,6 +88,14 @@ void MarinaSeat::process_keyboard_key(uint32_t time, uint32_t keycode, uint32_t 
     }
 }
 
+void MarinaSeat::process_keyboard_modifiers(struct wlr_keyboard_modifiers* modifiers) {
+    wlr_idle_notify_activity(this->server->idle, this->seat);
+
+    if (time > 0) {
+        wlr_seat_keyboard_notify_modifiers(this->seat, modifiers);
+    }
+}
+
 void MarinaSeat::focus_view(MarinaView* view, struct wlr_surface* surface) {
     wlr_log(WLR_DEBUG, "Focus view %x", view);
 
